@@ -1,21 +1,11 @@
 "use client";
 
-"use client";
-
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { TimelineChart } from "@/features/note/components/time-line-chart";
 import { ContentLengthChart } from "@/features/note/components/content-length-chart";
 import { ActivityChart } from "@/features/note/components/activity-chart";
 import { StatusChart } from "@/features/note/components/status-chart";
 import { SummaryStats } from "@/features/note/components/summary-chart";
 import { TNote } from "@/lib/types";
-import { Back } from "@/components/shared/back";
 
 const chartConfig = {
   count: {
@@ -42,10 +32,6 @@ type NoteDashboardProps = {
 export default function NoteDashboard({ notesData }: NoteDashboardProps) {
   return (
     <div className="space-y-6">
-      <div className="flex">
-        <Back heading="s" />
-        <h1 className="text-3xl font-semibold">Dashboard</h1>
-      </div>
       <div className="space-y-4">
         <SummaryStats data={notesData} />
 

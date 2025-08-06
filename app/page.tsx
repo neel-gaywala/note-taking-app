@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export default async function Note() {
   const initialNotes: TNote[] = await getFetchNotes();
-  console.log(initialNotes);
+
   return (
     <section className="max-w-7xl mx-auto px-4 py-8 min-h-screen w-full space-y-6 sm:space-y-10">
       <div className="flex  items-center justify-between">
