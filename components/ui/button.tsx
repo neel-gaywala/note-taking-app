@@ -1,7 +1,7 @@
-import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Loader2Icon } from "lucide-react";
+import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -44,6 +44,7 @@ function Button({
   ...props
 }: React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
+    // eslint-disable-next-line react/boolean-prop-naming
     asChild?: boolean;
   }) {
   const Comp = asChild ? Slot : "button";

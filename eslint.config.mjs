@@ -105,7 +105,6 @@ const eslintConfig = [
         },
       ],
       "react/no-access-state-in-setstate": ["error"],
-      "react/no-multi-comp": ["error"],
       "react/no-unused-prop-types": ["error"],
       "react/jsx-curly-brace-presence": [
         "error",

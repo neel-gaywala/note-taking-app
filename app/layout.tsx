@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+// eslint-disable-next-line import/order
 import { Provider } from "./provider";
 import "./globals.css";
+import React from "react";
+
 import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({

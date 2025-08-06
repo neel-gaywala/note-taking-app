@@ -1,10 +1,11 @@
+import { Calendar } from "lucide-react";
 import type { Metadata } from "next";
+import React from "react";
 
-import { getFetchNotes, getFetchNoteDetails } from "@/features/note/api";
 import { Back } from "@/components/shared/back";
 import { Error } from "@/components/shared/error";
+import { getFetchNotes, getFetchNoteDetails } from "@/features/note/api";
 import { formatNow } from "@/lib/date-utils";
-import { Calendar } from "lucide-react";
 
 type Params = {
   params: Promise<{ slug: string }>;

@@ -1,5 +1,5 @@
-import { proceedLogout, store } from "@/redux-store/store";
 import axios from "axios";
+import { proceedLogout, store } from "@/redux-store/store";
 
 import { SERVER } from "@/services/urls";
 
@@ -80,7 +80,7 @@ export async function put(url: string, data: object, config: object) {
 }
 
 export async function remove(url: string, config: object) {
-  const headers = { ...getHeaders() }; // Your custom header function
+  const headers = { ...getHeaders() };
   const response = await axiosApi.delete(url, {
     ...config,
     headers,
@@ -112,12 +112,11 @@ export const postFetch = async <T, R>(
 
     if (result.success) {
       return { success: true, data: result as R };
-    } else {
-      return {
-        success: false,
-        error_message: result.error_message || "An error occurred",
-      };
     }
+    return {
+      success: false,
+      error_message: result.error_message || "An error occurred",
+    };
   } catch {
     return {
       success: false,
@@ -138,12 +137,11 @@ export const getFetch = async <R>(url: string): Promise<PostFetchResult<R>> => {
     if (response.ok) {
       const result = await response.json();
       return { success: true, data: result as R };
-    } else {
-      return {
-        success: false,
-        error_message: "An error occurred",
-      };
     }
+    return {
+      success: false,
+      error_message: "An error occurred",
+    };
   } catch {
     return {
       success: false,

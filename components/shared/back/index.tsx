@@ -1,9 +1,9 @@
 "use client";
 
+import { ArrowLeft } from "lucide-react";
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigation } from "@/hooks";
-import { ArrowLeft } from "lucide-react";
 type BackProps = {
   children?: React.ReactNode;
   heading?: string;
@@ -14,15 +14,15 @@ function Back({ children, heading }: BackProps) {
   return (
     <Button
       // className="m-0 p-0 text-muted-foreground"
-      variant={"link"}
+      variant="link"
       onClick={() => {
         back();
       }}
     >
-      <>
+      <React.Fragment>
         <ArrowLeft />
         {!heading && (children || "Back")}
-      </>
+      </React.Fragment>
     </Button>
   );
 }
