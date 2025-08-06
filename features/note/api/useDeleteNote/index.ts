@@ -4,14 +4,8 @@ import { useMutation } from "@tanstack/react-query";
 import { remove } from "@/services/helper";
 import { NOTE_URL } from "@/services/urls";
 
-type Props = {
-  id: string;
-};
-
-export function useDeleteNote({ id }: Props) {
-  const DELETE_URL = `${NOTE_URL}/${id}`;
-  const deleteNoteById = () => remove(DELETE_URL, {});
-
+export function useDeleteNote() {
+  const deleteNoteById = (id: number) => remove(`${NOTE_URL}/${id}`, {});
   return useMutation({
     mutationFn: deleteNoteById,
   });

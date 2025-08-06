@@ -16,8 +16,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
+import { ButtonLoading } from "@/components/ui/button";
 import { useUpdateNote } from "@/features/note/api";
+import { useInvalidateQueries } from "@/hooks";
+import { toast } from "@/components/ui/sonner";
 
 type UpdateNoteProps = {
   id: number;
@@ -26,6 +28,8 @@ type UpdateNoteProps = {
 } & CreateNoteSchemaType;
 
 export default function UpdateNoteForm(props: UpdateNoteProps) {
+  const { invalidateQueries } = useInvalidateQueries();
+
   const form = useForm<CreateNoteSchemaType>({
     resolver: zodResolver(createNoteSchema),
     defaultValues: {
@@ -53,15 +57,21 @@ export default function UpdateNoteForm(props: UpdateNoteProps) {
     };
 
     updateNoteApi(updatedParams, {
-      onSuccess: (response: unknown) => {
-        console.log(response);
+      onSuccess: () => {
+        props.onSuccess?.();
+        invalidateQueries(["notes"]);
+        toast.success("Note Updated successfully");
+      },
+      onError: () => {
+        props.onError?.();
+        toast.error("Failed to update note");
       },
     });
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 py-4">
         <div className="space-y-4">
           <FormField
             name="title"
@@ -80,16 +90,25 @@ export default function UpdateNoteForm(props: UpdateNoteProps) {
             name="content"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel>Content</FormLabel>
                 <FormControl>
-                  <Textarea {...field} />
+                  <Textarea className=" max-h-60" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
         </div>
-        <Button type="submit">Create</Button>
+        <div className="flex justify-end mt-4">
+          <ButtonLoading
+            loading={isPending}
+            onClick={form.handleSubmit(onSubmit)}
+            type="submit"
+            className="cursor-pointer"
+          >
+            Update
+          </ButtonLoading>
+        </div>
       </form>
     </Form>
   );

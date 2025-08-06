@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
-
+import { Button } from "@/components/ui/button";
 import { useNavigation } from "@/hooks";
-
+import { ArrowLeft } from "lucide-react";
 type BackProps = {
   children?: React.ReactNode;
   heading?: string;
@@ -12,16 +12,18 @@ type BackProps = {
 function Back({ children, heading }: BackProps) {
   const { back } = useNavigation();
   return (
-    <div className="flex items-center gap-2">
-      <div
-        onClick={() => {
-          back();
-        }}
-      >
-        <>{!heading && (children || "Back")}</>
-      </div>
-      {heading && <h6 className="heading-6">{heading}</h6>}
-    </div>
+    <Button
+      // className="m-0 p-0 text-muted-foreground"
+      variant={"link"}
+      onClick={() => {
+        back();
+      }}
+    >
+      <>
+        <ArrowLeft />
+        {!heading && (children || "Back")}
+      </>
+    </Button>
   );
 }
 

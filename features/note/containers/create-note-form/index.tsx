@@ -19,6 +19,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ButtonLoading } from "@/components/ui/button";
 import { useCreateNote } from "@/features/note/api";
 import { useInvalidateQueries } from "@/hooks";
+import { toast } from "@/components/ui/sonner";
 
 const DEFAULT_VALUES = {
   title: "",
@@ -46,11 +47,13 @@ export default function CreateNoteForm({
   const onSubmit: SubmitHandler<CreateNoteSchemaType> = (noteParams) => {
     createNoteApi(noteParams, {
       onSuccess: () => {
+        toast.success("Note created successfully");
         invalidateQueries(["notes"]);
         onSuccess?.();
       },
       onError: () => {
         onError?.();
+        toast.error("Failed to create note");
       },
     });
   };
@@ -78,7 +81,7 @@ export default function CreateNoteForm({
               <FormItem>
                 <FormLabel>Content</FormLabel>
                 <FormControl>
-                  <Textarea {...field} />
+                  <Textarea className=" max-h-60" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

@@ -7,7 +7,7 @@ export async function getFetchNotes(): Promise<TNote[]> {
   const res = await getFetch(NOTE_URL);
 
   if (!res.success) {
-    throw new Error("Failed to fetch posts");
+    return [];
   }
   return res.data as TNote[];
 }
