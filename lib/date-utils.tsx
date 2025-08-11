@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import relativeTime from "dayjs/plugin/relativeTime";
 import timezone from "dayjs/plugin/timezone";
 import updateLocale from "dayjs/plugin/updateLocale";
@@ -8,6 +9,7 @@ dayjs.extend(relativeTime);
 dayjs.extend(updateLocale);
 dayjs.extend(utc);
 dayjs.extend(timezone);
+dayjs.extend(isSameOrAfter);
 
 dayjs.updateLocale("en", {
   relativeTime: {
@@ -43,6 +45,10 @@ const DATE_FORMATS = {
   YYYY_MM_DD_HH_mm_ss: "YYYY-MM-DD HH:mm:ss",
   YYYYMMDD_HHmmss: "YYYYMMDD-HHmmss",
 };
+
+export const now = dayjs();
+export const nowDate = (date: string) => dayjs(date);
+
 export const format = (
   date: string,
   type: keyof typeof DATE_FORMATS = "D_MMM_YYYY"
@@ -67,9 +73,8 @@ export const displayFormatFromNow = (
 
   if (Math.abs(diff) > 7) {
     return format(date, type);
-  } else {
-    return dayjs(date).fromNow();
   }
+  return dayjs(date).fromNow();
 };
 
 export const formatNow = (
@@ -80,7 +85,6 @@ export const formatNow = (
 
   if (Math.abs(diff) > 7) {
     return format(date, type);
-  } else {
-    return dayjs(date).fromNow();
   }
+  return dayjs(date).fromNow();
 };

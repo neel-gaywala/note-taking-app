@@ -1,53 +1,94 @@
 "use client";
 
-import { useState } from "react";
-import { useGetNotes, useDeleteNote } from "@/features/note/api";
-import NoteItem from "@/features/note/components/note-item";
-import UpdateNoteForm from "@/features/note/containers/update-note-form";
-import NoteFilter from "@/features/note/containers/note-filter";
-import { TNote } from "@/lib/types";
-import { useInvalidateQueries } from "@/hooks";
-import { toast } from "@/components/ui/sonner";
+import React, { useMemo, useState } from "react";
 import { NotFound } from "@/components/shared/not-found";
-import { Placeholder } from "@/components/shared/place-holder";
+import { toast } from "@/components/ui/sonner";
+import { useGetNotes, useDeleteNote } from "@/features/note/api";
+import DeleteNoteDialog from "@/features/note/components/delete-note-dialog";
+import NoteItem from "@/features/note/components/note-item";
+import UpdateNoteModal from "@/features/note/components/update-note-modal";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+import { useRedux, useInvalidateQueries } from "@/hooks";
+import { now, nowDate } from "@/lib/date-utils";
+import { TNote } from "@/lib/types";
 
 type NoteListProps = {
   initialNotes: TNote[];
 };
 
 function NoteList({ initialNotes }: NoteListProps) {
-  const [search, setSearch] = useState("");
-  const [sort, setSort] = useState<"newest" | "oldest">("newest");
+  const { data, error, isError } = useGetNotes({ initialNotes });
+  const { invalidateQueries } = useInvalidateQueries();
+  const { mutate: deleteNoteApi } = useDeleteNote();
+
   const [selectedNote, setSelectedNote] = useState<TNote | null>(null);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false);
 
-  const { invalidateQueries } = useInvalidateQueries();
-  const { mutate: deleteNoteApi, isPending } = useDeleteNote();
-  const { data, error, isError, isLoading } = useGetNotes({ initialNotes });
+  const {
+    app: { filterBy },
+  } = useRedux();
 
+  const { search, date, sort } = filterBy;
+
+  const filteredNotes = useMemo(
+    () => filterAndSortNotes(data || [], search, date, sort),
+    [data, search, date, sort]
+  );
   if (isError) return <span>{error.message}</span>;
   if (!data) return null;
 
-  // Handlers
+  function filterAndSortNotes(
+    notes: TNote[],
+    search?: string,
+    date?: string,
+    sort?: string
+  ): TNote[] {
+    if (!notes) return [];
+
+    const filters: Record<string, (note: TNote) => boolean> = {
+      search: (note) =>
+        !search ||
+        [note.title, note.content].some((field) =>
+          field.toLowerCase().includes(search.toLowerCase())
+        ),
+
+      date: (note) => {
+        if (!date) return true;
+        const created = nowDate(note.updatedAt);
+        switch (date) {
+          case "today":
+            return created.isSame(now, "day");
+          case "week":
+            return created.isSameOrAfter(now.subtract(7, "day"), "day");
+          case "month":
+            return created.isSameOrAfter(now.subtract(1, "month"), "day");
+          default:
+            return true;
+        }
+      },
+    };
+
+    const sorters: Record<string, (a: TNote, b: TNote) => number> = {
+      newest: (a, b) =>
+        new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
+      oldest: (a, b) =>
+        new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime(),
+      asc: (a, b) => a.title.localeCompare(b.title),
+      desc: (a, b) => b.title.localeCompare(a.title),
+    };
+
+    let result = notes.filter(
+      (note) => filters.search(note) && filters.date(note)
+    );
+
+    if (sort && sorters[sort]) {
+      result = [...result].sort(sorters[sort]);
+    }
+
+    return result;
+  }
+
   const handleEdit = (note: TNote) => {
     setSelectedNote(note);
     setShowUpdateModal(true);
@@ -69,93 +110,47 @@ function NoteList({ initialNotes }: NoteListProps) {
         toast.success("Note deleted successfully");
       },
       onError: () => {
-        // Handle delete error (optional)
         toast.error("Failed to delete note");
       },
     });
   };
 
-  // Filtering + Sorting
-  const filteredNotes = data
-    .filter((note: TNote) =>
-      [note.title, note.content].some((text) =>
-        text.toLowerCase().includes(search.toLowerCase())
-      )
-    )
-    .sort((a: TNote, b: TNote) =>
-      sort === "newest"
-        ? new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        : new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-    );
-
   return (
-    <>
-      {/* Filter Bar */}
-      <NoteFilter
-        search={search}
-        onSearchChange={setSearch}
-        sort={sort}
-        onSortChange={setSort}
+    <React.Fragment>
+      <div className="relative flex flex-col space-y-4">
+        <h3 className="heading">{"My Note"}</h3>
+        {filteredNotes.length > 0 ? (
+          <ul className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-4 gap-4 items-stretch">
+            {filteredNotes.map((note: TNote) => (
+              <NoteItem
+                key={note.id}
+                {...note}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+              />
+            ))}
+          </ul>
+        ) : (
+          <NotFound />
+        )}
+      </div>
+
+      <UpdateNoteModal
+        note={selectedNote}
+        isOpen={showUpdateModal}
+        onOpenChange={setShowUpdateModal}
+        onSuccess={() => {
+          setShowUpdateModal(false);
+          setSelectedNote(null);
+        }}
       />
 
-      {/* Notes Grid */}
-      {filteredNotes.length > 0 ? (
-        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 items-stretch">
-          {filteredNotes.map((note: TNote) => (
-            <NoteItem
-              key={note.id}
-              {...note}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-            />
-          ))}
-        </ul>
-      ) : (
-        <NotFound />
-      )}
-
-      {/* Update Note Modal */}
-      {selectedNote && (
-        <Dialog open={showUpdateModal} onOpenChange={setShowUpdateModal}>
-          <DialogContent className="flex max-h-[98%] flex-col overflow-hidden px-0 sm:max-w-3xl">
-            <DialogHeader className="px-6">
-              <DialogTitle>Update {selectedNote.title}</DialogTitle>
-            </DialogHeader>
-            <div className="px-6">
-              <UpdateNoteForm
-                {...selectedNote}
-                onSuccess={() => {
-                  setShowUpdateModal(false);
-                  setSelectedNote(null);
-                }}
-                onError={() => {
-                  // Optional: Handle update error
-                }}
-              />
-            </div>
-          </DialogContent>
-        </Dialog>
-      )}
-
-      {/* Delete Confirmation Dialog */}
-      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Delete Note</AlertDialogTitle>
-            <AlertDialogDescription>
-              Are you sure you want to delete this note? This action cannot be
-              undone.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDeleteConfirm}>
-              Continue
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
-    </>
+      <DeleteNoteDialog
+        isOpen={showDeleteDialog}
+        onOpenChange={setShowDeleteDialog}
+        onConfirm={handleDeleteConfirm}
+      />
+    </React.Fragment>
   );
 }
 

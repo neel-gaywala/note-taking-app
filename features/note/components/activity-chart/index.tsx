@@ -1,5 +1,14 @@
 "use client";
 
+import React from "react";
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  ResponsiveContainer,
+} from "recharts";
 import {
   Card,
   CardContent,
@@ -12,21 +21,13 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid } from "recharts";
-
-interface Note {
-  id: number;
-  title: string;
-  content: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import { TNote } from "@/lib/types";
 
 interface ActivityChartProps {
-  data: Note[];
+  data: TNote[];
 }
 
-const processActivityData = (notesData: Note[]) => {
+const processActivityData = (notesData: TNote[]) => {
   const activityMap = new Map();
 
   notesData.forEach((note) => {
@@ -43,9 +44,9 @@ const processActivityData = (notesData: Note[]) => {
       activityMap.set(updatedKey, { time: updatedKey, created: 0, updated: 0 });
     }
 
-    activityMap.get(createdKey).created += 1;
+    activityMap.get(createdKey)!.created += 1;
     if (note.createdAt !== note.updatedAt) {
-      activityMap.get(updatedKey).updated += 1;
+      activityMap.get(updatedKey)!.updated += 1;
     }
   });
 
@@ -69,36 +70,42 @@ export function ActivityChart({ data }: ActivityChartProps) {
   const activityData = processActivityData(data);
 
   return (
-    <Card className="w-[368px] sm:w-full">
+    <Card className="max-w-full overflow-hidden">
       <CardHeader>
-        <CardTitle>Activity Timeline</CardTitle>
-        <CardDescription>Notes created vs updated by hour</CardDescription>
+        <CardTitle>{"Activity Timeline"}</CardTitle>
+        <CardDescription>{"Notes created vs updated by hour"}</CardDescription>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig} className="h-[300px]">
-          <AreaChart data={activityData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="time" />
-            <YAxis />
-            <ChartTooltip content={<ChartTooltipContent />} />
-            <Area
-              type="monotone"
-              dataKey="created"
-              stackId="1"
-              stroke="var(--color-created)"
-              fill="var(--color-created)"
-              fillOpacity={0.6}
-            />
-            <Area
-              type="monotone"
-              dataKey="updated"
-              stackId="1"
-              stroke="var(--color-updated)"
-              fill="var(--color-updated)"
-              fillOpacity={0.6}
-            />
-          </AreaChart>
-        </ChartContainer>
+        <div className="overflow-x-auto">
+          <div className="min-w-[320px]">
+            <ChartContainer config={chartConfig} className="h-[300px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={activityData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="time" />
+                  <YAxis />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Area
+                    type="monotone"
+                    dataKey="created"
+                    stackId="1"
+                    stroke="var(--color-created)"
+                    fill="var(--color-created)"
+                    fillOpacity={0.6}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="updated"
+                    stackId="1"
+                    stroke="var(--color-updated)"
+                    fill="var(--color-updated)"
+                    fillOpacity={0.6}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
+            </ChartContainer>
+          </div>
+        </div>
       </CardContent>
     </Card>
   );

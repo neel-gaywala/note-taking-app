@@ -2,9 +2,9 @@
 
 import { useQuery } from "@tanstack/react-query";
 
+import { TNote } from "@/lib/types";
 import { get } from "@/services/helper";
 import { NOTE_URL } from "@/services/urls";
-import { TNote } from "@/lib/types";
 
 type Props = {
   initialNotes?: TNote[];

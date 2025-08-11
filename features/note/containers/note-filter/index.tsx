@@ -1,6 +1,5 @@
 "use client";
-
-import { useState, useEffect, ChangeEvent } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -9,47 +8,75 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useDebounce } from "@/hooks";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { useRedux, useDebounce } from "@/hooks";
+import { DATE_FILTER_DATA, SORT_FILTER_DATA } from "@/lib/constants";
+import { setFilterBy } from "@/redux-store/app";
 
-type Props = {
-  search: string;
-  onSearchChange: (value: string) => void;
-  sort: "newest" | "oldest";
-  onSortChange: (value: "newest" | "oldest") => void;
-};
+function NoteFilter() {
+  const {
+    app: { filterBy },
+    dispatch,
+  } = useRedux();
 
-function NoteFilter({ search, onSearchChange, sort, onSortChange }: Props) {
-  const [input, setInput] = useState(search);
+  const { search, date, sort } = filterBy ?? {};
+  const [localSearch, setLocalSearch] = useState(search ?? "");
 
-  const debouncedSearch = useDebounce(input, 300);
+  const debouncedSearch = useDebounce(localSearch, 300);
+
+  const updateFilter = (key: string, value: string) => {
+    dispatch(
+      setFilterBy({
+        ...filterBy,
+        [key]: value,
+      })
+    );
+  };
 
   useEffect(() => {
-    onSearchChange(debouncedSearch);
-  }, [debouncedSearch, onSearchChange]);
+    if (debouncedSearch !== search) {
+      updateFilter("search", debouncedSearch);
+    }
+  }, [debouncedSearch]);
 
   return (
-    <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-      <Input
-        placeholder="Search notes..."
-        value={input}
-        onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          setInput(e.target.value)
-        }
-        className="w-full sm:w-[320px]"
-      />
+    <div className="flex flex-col space-y-4 lg:space-y-0 lg:flex-row lg:items-center justify-between">
+      <div className="flex gap-3">
+        <Input
+          placeholder="Search ..."
+          value={localSearch}
+          onChange={(e) => setLocalSearch(e.target.value)}
+          className="w-full sm:w-[300px]"
+        />
+        <Select
+          value={sort}
+          onValueChange={(value) => updateFilter("sort", value)}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Sort by" />
+          </SelectTrigger>
+          <SelectContent>
+            {SORT_FILTER_DATA.map((item) => (
+              <SelectItem key={item.id} value={item.value}>
+                {item.item}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
 
-      <Select
-        value={sort}
-        onValueChange={(val) => onSortChange(val as "newest" | "oldest")}
+      <ToggleGroup
+        type="single"
+        value={date}
+        variant="outline"
+        onValueChange={(value) => updateFilter("date", value)}
       >
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Sort by" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="newest">Newest First</SelectItem>
-          <SelectItem value="oldest">Oldest First</SelectItem>
-        </SelectContent>
-      </Select>
+        {DATE_FILTER_DATA.map((item) => (
+          <ToggleGroupItem key={item.id} value={item.value} className="px-4">
+            {item.item}
+          </ToggleGroupItem>
+        ))}
+      </ToggleGroup>
     </div>
   );
 }

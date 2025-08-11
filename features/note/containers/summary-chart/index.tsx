@@ -1,27 +1,21 @@
 "use client";
-import SummaryItem from "../summary-item";
-
-interface Note {
-  id: number;
-  title: string;
-  content: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import React from "react";
+import SummaryItem from "@/features/note/components/summary-item";
+import { TNote } from "@/lib/types";
 
 interface SummaryStatsProps {
-  data: Note[];
+  data: TNote[];
 }
 
 export function SummaryStats({ data }: SummaryStatsProps) {
   const editedNotesCount = data.filter(
     (note) => note.createdAt !== note.updatedAt
   ).length;
+
   const avgContentLength = Math.round(
     data.reduce((acc, note) => acc + note.content.length, 0) / data.length
   );
 
-  // Calculate most active hour
   const hourlyData = new Map();
   data.forEach((note) => {
     const hour = new Date(note.createdAt).getHours();
@@ -35,11 +29,11 @@ export function SummaryStats({ data }: SummaryStatsProps) {
   )[0];
 
   return (
-    <div className="grid gap-4 md:grid-cols-4">
-      <SummaryItem heading={"Total Notes"} content={data.length} />
-      <SummaryItem heading={"Edited Notes"} content={editedNotesCount} />
-      <SummaryItem heading={"Avg Content Length"} content={avgContentLength} />
-      <SummaryItem heading={"Most Active Hour"} content={mostActiveHour} />
+    <div className="grid gap-5 md:grid-cols-4">
+      <SummaryItem heading="Total Notes" content={data.length} />
+      <SummaryItem heading="Edited Notes" content={editedNotesCount} />
+      <SummaryItem heading="Avg Content Length" content={avgContentLength} />
+      <SummaryItem heading="Most Active Hour" content={mostActiveHour} />
     </div>
   );
 }

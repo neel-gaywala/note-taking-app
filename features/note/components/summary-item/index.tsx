@@ -8,8 +8,8 @@ type SummaryItemProps = {
 
 function SummaryItem({ heading, content }: SummaryItemProps) {
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+    <Card className="flex flex-row sm:flex-col items-center sm:items-start">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0  w-full">
         <CardTitle className="text-sm font-medium">{heading}</CardTitle>
       </CardHeader>
       <CardContent>

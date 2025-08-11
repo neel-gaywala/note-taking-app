@@ -1,11 +1,11 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogTrigger,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -26,16 +26,16 @@ export default function CreateNote() {
     <div className="w-full">
       <div className="flex justify-end">
         <Button className="cursor-pointer" onClick={openModal}>
-          New Note
+          {"Add New Note"}
         </Button>
       </div>
 
       <Dialog open={showCreateModal} onOpenChange={setShowCreateModal}>
         <DialogContent className="flex max-h-[98%] flex-col overflow-hidden px-0 sm:max-w-3xl">
           <DialogHeader className="px-6">
-            <DialogTitle>New Note</DialogTitle>
+            <DialogTitle>{"New Note"}</DialogTitle>
             <DialogDescription>
-              Create a new note by filling out the form below.
+              {"Create a new note by filling out the form below."}
             </DialogDescription>
           </DialogHeader>
           <div className="px-6">

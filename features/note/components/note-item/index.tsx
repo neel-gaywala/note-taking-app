@@ -1,52 +1,60 @@
-import React from "react";
-import { TNote } from "@/lib/types";
-import { Card } from "@/components/ui/card";
-import { formatNow } from "@/lib/date-utils";
 import { Pencil, Trash } from "lucide-react";
 import Link from "next/link";
+import React from "react";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import ToggleFavorite from "@/features/note/containers/toggle-favorite";
+import { formatNow } from "@/lib/date-utils";
+import { TNote } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 type NoteItemProps = {
   onEdit?: (item: TNote) => void;
   onDelete?: (item: TNote) => void;
 } & TNote;
 
-function NoteItem({ onEdit, onDelete, ...rest }: NoteItemProps) {
-  const { title, content, updatedAt, id } = rest;
+function NoteItem({ onEdit, onDelete, ...note }: NoteItemProps) {
+  const { title, content, updatedAt, id } = note;
+
+  const handleEdit = (e: React.MouseEvent) => {
+    e.preventDefault();
+    onEdit?.(note);
+  };
+
+  const handleDelete = (e: React.MouseEvent) => {
+    e.preventDefault();
+    onDelete?.(note);
+  };
 
   return (
     <Link href={`/note/${id}`} className="no-underline">
-      <Card className="shadow-none  rounded-sm px-4 py-3 sm:min-h-[140px] flex flex-col ">
-        <div className="space-y-1 flex-1">
-          <h3 className="text-lg font-semibold line-clamp-1 capitalize">
-            {title}
-          </h3>
+      <Card className="flex flex-col px-4 py-3 rounded-sm shadow-none sm:min-h-[140px]">
+        <div className="flex-1 space-y-1">
+          <div className="flex items-center space-x-2">
+            <h3 className="flex-1 text-lg font-semibold capitalize line-clamp-1">
+              {title}
+            </h3>
+            <ToggleFavorite note={note} />
+          </div>
           <p className="text-sm text-gray-600 line-clamp-2">{content}</p>
         </div>
-        <div className="flex justify-between items-center">
+
+        <div className="flex items-center justify-between">
           <h6 className="text-xs text-gray-400">{formatNow(updatedAt)}</h6>
-          <div className="flex space-x-2 sm:space-x-1">
+          <div className="flex">
             <Button
-              onClick={(e) => {
-                e.preventDefault();
-                if (onEdit) {
-                  onEdit(rest);
-                }
-              }}
-              className="size-8 sm:size-6 bg-black/70 rounded-full flex items-center justify-center cursor-pointer hover:bg-black/60 transition-colors"
+              className={cn("size-7 rounded-sm p-2")}
+              variant="ghost"
+              onClick={handleEdit}
             >
-              <Pencil className="size-[10px] text-white" />
+              <Pencil className="size-4 sm:size-3" />
             </Button>
             <Button
-              onClick={(e) => {
-                e.preventDefault();
-                if (onDelete) {
-                  onDelete(rest);
-                }
-              }}
-              className="size-8 sm:size-6 bg-red-400 rounded-full flex items-center justify-center cursor-pointer hover:bg-red-300 transition-colors"
+              className={cn("size-7 rounded-sm p-2")}
+              variant="ghost"
+              onClick={handleDelete}
             >
-              <Trash className="size-[10px] text-white" />
+              <Trash className="size-4 sm:size-3" />
             </Button>
           </div>
         </div>
