@@ -21,20 +21,13 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-
-interface Note {
-  id: number;
-  title: string;
-  content: string;
-  createdAt: string;
-  updatedAt: string;
-}
+import { TNote } from "@/lib/types";
 
 interface TimelineChartProps {
-  data: Note[];
+  data: TNote[];
 }
 
-const processTimelineData = (notesData: Note[]) => {
+const processTimelineData = (notesData: TNote[]) => {
   const hourlyData = new Map();
 
   notesData.forEach((note) => {
@@ -63,7 +56,7 @@ export function TimelineChart({ data }: TimelineChartProps) {
       <CardHeader>
         <CardTitle>{"Notes Created by Hour"}</CardTitle>
         <CardDescription>
-          {" Distribution of note creation times throughout the day"}
+          {"Distribution of note creation times throughout the day"}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -91,7 +84,7 @@ export function TimelineChart({ data }: TimelineChartProps) {
                     strokeWidth={2}
                     dot={{
                       fill: "var(--color-count)",
-                      strokeWidth: 2,
+                      strokeWidth: 10,
                       r: 4,
                     }}
                     activeDot={{ r: 6, strokeWidth: 0 }}

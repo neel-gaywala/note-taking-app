@@ -1,9 +1,9 @@
-import { combineReducers } from "redux";
-import { STORAGE_NAME } from "@/lib/constants";
-import { APP_REDUCER } from "@/redux-store/app";
 import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers } from "redux";
 import { persistReducer, persistStore } from "redux-persist";
 import createWebStorage from "redux-persist/es/storage/createWebStorage";
+import { STORAGE_NAME } from "@/lib/constants";
+import { APP_REDUCER } from "@/redux-store/app";
 
 interface LogoutParams {
   onSuccess: () => void;

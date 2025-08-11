@@ -1,11 +1,10 @@
 "use client";
 
-import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { createNoteSchema } from "@/lib/validations";
-import { CreateNoteSchemaType } from "@/lib/types";
 
+import { ButtonLoading } from "@/components/ui/button";
 import {
   Form,
   FormField,
@@ -15,11 +14,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/sonner";
 import { Textarea } from "@/components/ui/textarea";
-import { ButtonLoading } from "@/components/ui/button";
 import { useCreateNote } from "@/features/note/api";
 import { useInvalidateQueries } from "@/hooks";
-import { toast } from "@/components/ui/sonner";
+import { CreateNoteSchemaType } from "@/lib/types";
+import { createNoteSchema } from "@/lib/validations";
 
 const DEFAULT_VALUES = {
   title: "",
@@ -66,7 +66,7 @@ export default function CreateNoteForm({
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Title</FormLabel>
+                <FormLabel>{"Title"}</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -79,7 +79,7 @@ export default function CreateNoteForm({
             name="content"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Content</FormLabel>
+                <FormLabel>{"Content"}</FormLabel>
                 <FormControl>
                   <Textarea className=" max-h-60" {...field} />
                 </FormControl>
@@ -95,7 +95,7 @@ export default function CreateNoteForm({
             type="submit"
             className="cursor-pointer"
           >
-            Create
+            {"Create"}
           </ButtonLoading>
         </div>
       </form>

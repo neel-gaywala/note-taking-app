@@ -18,6 +18,7 @@ type NoteListProps = {
 
 function NoteList({ initialNotes }: NoteListProps) {
   const { data, error, isError } = useGetNotes({ initialNotes });
+
   const { invalidateQueries } = useInvalidateQueries();
   const { mutate: deleteNoteApi } = useDeleteNote();
 

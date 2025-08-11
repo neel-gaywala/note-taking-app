@@ -25,7 +25,6 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
     const { title, content } = note;
 
     return {
-      metadataBase: new URL("https://app.nammatvk.com"),
       title,
       description: content,
     };
@@ -49,12 +48,12 @@ async function NoteDetails({ params }: Params) {
   const { content, title, createdAt } = noteDetails!;
 
   return (
-    <section className="max-w-5xl mx-auto px-4 py-8 min-h-screen w-full space-y-6 sm:space-y-12">
+    <section className="max-w-5xl mx-auto px-4 py-8 min-h-screen w-full space-y-6">
       <Back />
       <div className="px-4 space-y-8">
         <div className="space-y-4">
           <h1 className="text-3xl font-bold capitalize">{title}</h1>
-          <div className="flex items-center space-x-2 mt-2">
+          <div className="flex items-center space-x-1 mt-2">
             <Calendar className="size-4" />
             <h6 className="text-xs text-gray-400">{formatNow(createdAt)}</h6>
           </div>

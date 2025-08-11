@@ -5,7 +5,7 @@ import { getFetchNotes } from "@/features/note/api";
 import NoteDashboard from "@/features/note/containers/note-dashboard";
 import { TNote } from "@/lib/types";
 
-export default async function Note() {
+export default async function Dashboard() {
   let notes: TNote[] = [];
 
   try {

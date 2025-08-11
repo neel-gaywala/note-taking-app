@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { ActivityChart } from "@/features/note/components/activity-chart";
+import { ActivityChart } from "@/features/note/containers/activity-chart";
 import { ContentLengthChart } from "@/features/note/containers/content-length-chart";
 import { StatusChart } from "@/features/note/containers/status-chart";
 import { SummaryStats } from "@/features/note/containers/summary-chart";

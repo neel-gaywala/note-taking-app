@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import React, { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { createNoteSchema } from "@/lib/validations";
-import { CreateNoteSchemaType } from "@/lib/types";
 
+import { ButtonLoading } from "@/components/ui/button";
 import {
   Form,
   FormField,
@@ -15,11 +14,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/sonner";
 import { Textarea } from "@/components/ui/textarea";
-import { ButtonLoading } from "@/components/ui/button";
 import { useUpdateNote } from "@/features/note/api";
 import { useInvalidateQueries } from "@/hooks";
-import { toast } from "@/components/ui/sonner";
+import { CreateNoteSchemaType } from "@/lib/types";
+import { createNoteSchema } from "@/lib/validations";
 
 type UpdateNoteProps = {
   id: number;
@@ -51,19 +51,20 @@ export default function UpdateNoteForm(props: UpdateNoteProps) {
   const { mutate: updateNoteApi, isPending } = useUpdateNote();
 
   const onSubmit: SubmitHandler<CreateNoteSchemaType> = (params) => {
+    const { id, onSuccess, onError } = props;
     const updatedParams = {
       ...params,
-      id: props.id,
+      id,
     };
 
     updateNoteApi(updatedParams, {
       onSuccess: () => {
-        props.onSuccess?.();
+        onSuccess?.();
         invalidateQueries(["notes"]);
         toast.success("Note Updated successfully");
       },
       onError: () => {
-        props.onError?.();
+        onError?.();
         toast.error("Failed to update note");
       },
     });
@@ -77,7 +78,7 @@ export default function UpdateNoteForm(props: UpdateNoteProps) {
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Title</FormLabel>
+                <FormLabel>{"Title"}</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
@@ -90,7 +91,7 @@ export default function UpdateNoteForm(props: UpdateNoteProps) {
             name="content"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Content</FormLabel>
+                <FormLabel>{"Content"}</FormLabel>
                 <FormControl>
                   <Textarea className=" max-h-60" {...field} />
                 </FormControl>
@@ -106,7 +107,7 @@ export default function UpdateNoteForm(props: UpdateNoteProps) {
             type="submit"
             className="cursor-pointer"
           >
-            Update
+            {"Update"}
           </ButtonLoading>
         </div>
       </form>
