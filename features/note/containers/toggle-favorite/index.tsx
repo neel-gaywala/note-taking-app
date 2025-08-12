@@ -23,7 +23,11 @@ function ToggleFavorite({ note }: ToggleFavoriteProps) {
   };
 
   return (
-    <div className="flex space-x-2 p-1" onClick={handleToggle}>
+    <div
+      data-testid="toggle-favorite"
+      className="flex space-x-2 p-1"
+      onClick={handleToggle}
+    >
       <Star
         fill={isFavorite ? "#fd9a00" : "none"}
         className="size-4 text-amber-500"

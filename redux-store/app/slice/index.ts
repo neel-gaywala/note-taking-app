@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { TNote } from "@/lib/types";
 import { AppSliceStateProps, TFilter } from "../interfaces";
-const initialState: AppSliceStateProps = {
+export const initialState: AppSliceStateProps = {
   language: "ta",
   filterBy: {
     search: "",
@@ -38,7 +38,7 @@ const AppSlice = createSlice({
           (note) => note.id !== action.payload.id
         );
       } else {
-        state.favoriteNotes = [...state?.favoriteNotes, action.payload];
+        state.favoriteNotes = [...(state.favoriteNotes || []), action.payload];
       }
     },
   },
