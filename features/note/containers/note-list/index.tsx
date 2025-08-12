@@ -30,7 +30,7 @@ function NoteList({ initialNotes }: NoteListProps) {
     app: { filterBy },
   } = useRedux();
 
-  const { search, date, sort } = filterBy;
+  const { search, date, sort } = filterBy ?? {};
 
   const filteredNotes = useMemo(
     () => filterAndSortNotes(data || [], search, date, sort),
