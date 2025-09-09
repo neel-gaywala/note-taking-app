@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import { X } from 'lucide-react';
-import Button from './Button';
+import { X } from "lucide-react";
+import React, { useEffect } from "react";
+import Button from "./Button";
 
 interface ModalProps {
   isOpen: boolean;
@@ -15,23 +15,23 @@ const Modal: React.FC<ModalProps> = ({
   onClose,
   title,
   children,
-  className = '',
+  className = "",
 }) => {
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         onClose();
       }
     };
 
     if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'hidden';
+      document.addEventListener("keydown", handleEscape);
+      document.body.style.overflow = "hidden";
     }
 
     return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "unset";
     };
   }, [isOpen, onClose]);
 
@@ -44,7 +44,9 @@ const Modal: React.FC<ModalProps> = ({
           className="fixed inset-0 bg-black/50 transition-opacity"
           onClick={onClose}
         />
-        <div className={`relative bg-white rounded-lg shadow-xl w-full max-w-md ${className}`}>
+        <div
+          className={`relative bg-white rounded-lg shadow-xl w-full max-w-md ${className}`}
+        >
           <div className="flex items-center justify-between p-6 border-b">
             <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
             <Button

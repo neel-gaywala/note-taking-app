@@ -1,6 +1,6 @@
-import { AlertTriangle } from 'lucide-react';
-import Modal from './ui/Modal';
-import Button from './ui/Button';
+import { AlertTriangle } from "lucide-react";
+import Button from "./ui/Button";
+import Modal from "./ui/Modal";
 
 interface DeleteConfirmModalProps {
   isOpen: boolean;
@@ -29,18 +29,16 @@ const DeleteConfirmModal: React.FC<DeleteConfirmModalProps> = ({
           </div>
           <div>
             <p className="text-sm text-gray-700">
-              Are you sure you want to delete this note? This action cannot be undone.
+              {
+                "Are you sure you want to delete this note? This action cannot be undone."
+              }
             </p>
           </div>
         </div>
-        
+
         <div className="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200">
-          <Button
-            variant="secondary"
-            onClick={onClose}
-            disabled={isLoading}
-          >
-            Cancel
+          <Button variant="secondary" onClick={onClose} disabled={isLoading}>
+            {"Cancel"}
           </Button>
           <Button
             variant="danger"
@@ -48,7 +46,7 @@ const DeleteConfirmModal: React.FC<DeleteConfirmModalProps> = ({
             isLoading={isLoading}
             disabled={isLoading}
           >
-            Delete Note
+            {"Delete Note"}
           </Button>
         </div>
       </div>

@@ -1,27 +1,28 @@
-import { useState } from 'react';
-import { Plus, Search } from 'lucide-react';
-import { Note } from '@/types';
-import { useNotes, useDeleteNote } from '@/hooks/useNotes';
-import useDebounce from '@/hooks/useDebounce';
-import Button from './ui/Button';
-import Input from './ui/Input';
-import NoteCard from './NoteCard';
-import NoteForm from './NoteForm';
-import DeleteConfirmModal from './DeleteConfirmModal';
+import { Plus, Search } from "lucide-react";
+import { useState } from "react";
+import useDebounce from "@/hooks/useDebounce";
+import { useNotes, useDeleteNote } from "@/hooks/useNotes";
+import { Note } from "@/types";
+import DeleteConfirmModal from "./DeleteConfirmModal";
+import NoteCard from "./NoteCard";
+import NoteForm from "./NoteForm";
+import Button from "./ui/Button";
+import Input from "./ui/Input";
 
 const NotesList: React.FC = () => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingNote, setEditingNote] = useState<Note | null>(null);
   const [deleteNoteId, setDeleteNoteId] = useState<number | null>(null);
-  
+
   const debouncedSearch = useDebounce(searchQuery, 300);
   const { data: notes = [], isLoading, error } = useNotes();
   const deleteNote = useDeleteNote();
 
-  const filteredNotes = notes.filter(note =>
-    note.title.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
-    note.content.toLowerCase().includes(debouncedSearch.toLowerCase())
+  const filteredNotes = notes.filter(
+    (note) =>
+      note.title.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+      note.content.toLowerCase().includes(debouncedSearch.toLowerCase()),
   );
 
   const handleCreateNote = () => {
@@ -53,7 +54,9 @@ const NotesList: React.FC = () => {
   if (error) {
     return (
       <div className="text-center py-12">
-        <p className="text-red-600">Error loading notes. Please try again.</p>
+        <p className="text-red-600">
+          {"Error loading notes. Please try again."}
+        </p>
       </div>
     );
   }
@@ -73,27 +76,33 @@ const NotesList: React.FC = () => {
             className="pl-10"
           />
         </div>
-        <Button onClick={handleCreateNote} className="flex items-center space-x-2">
+        <Button
+          onClick={handleCreateNote}
+          className="flex items-center space-x-2"
+        >
           <Plus className="w-4 h-4" />
-          <span>New Note</span>
+          <span>{"New Note"}</span>
         </Button>
       </div>
 
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {[...Array(8)].map((_, i) => (
-            <div key={i} className="bg-white rounded-lg border border-gray-200 p-4 animate-pulse">
-              <div className="h-6 bg-gray-200 rounded mb-3"></div>
+            <div
+              key={i}
+              className="bg-white rounded-lg border border-gray-200 p-4 animate-pulse"
+            >
+              <div className="h-6 bg-gray-200 rounded mb-3" />
               <div className="space-y-2">
-                <div className="h-4 bg-gray-200 rounded"></div>
-                <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-                <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                <div className="h-4 bg-gray-200 rounded" />
+                <div className="h-4 bg-gray-200 rounded w-3/4" />
+                <div className="h-4 bg-gray-200 rounded w-1/2" />
               </div>
               <div className="flex justify-between items-center mt-4 pt-4 border-t border-gray-100">
-                <div className="h-3 bg-gray-200 rounded w-20"></div>
+                <div className="h-3 bg-gray-200 rounded w-20" />
                 <div className="flex space-x-2">
-                  <div className="h-6 w-6 bg-gray-200 rounded"></div>
-                  <div className="h-6 w-6 bg-gray-200 rounded"></div>
+                  <div className="h-6 w-6 bg-gray-200 rounded" />
+                  <div className="h-6 w-6 bg-gray-200 rounded" />
                 </div>
               </div>
             </div>
@@ -104,17 +113,28 @@ const NotesList: React.FC = () => {
           {searchQuery ? (
             <div>
               <Search className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No matching notes</h3>
-              <p className="text-gray-500">Try adjusting your search terms</p>
+              <h3 className="text-lg font-medium text-gray-900 mb-2">
+                {"No matching notes"}
+              </h3>
+              <p className="text-gray-500">
+                {"Try adjusting your search terms"}
+              </p>
             </div>
           ) : (
             <div>
               <Plus className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No notes yet</h3>
-              <p className="text-gray-500 mb-6">Create your first note to get started</p>
-              <Button onClick={handleCreateNote} className="flex items-center space-x-2">
+              <h3 className="text-lg font-medium text-gray-900 mb-2">
+                {"No notes yet"}
+              </h3>
+              <p className="text-gray-500 mb-6">
+                {"Create your first note to get started"}
+              </p>
+              <Button
+                onClick={handleCreateNote}
+                className="flex items-center space-x-2"
+              >
                 <Plus className="w-4 h-4" />
-                <span>Create Note</span>
+                <span>{"Create Note"}</span>
               </Button>
             </div>
           )}

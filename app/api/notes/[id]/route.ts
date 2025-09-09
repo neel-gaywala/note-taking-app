@@ -4,7 +4,7 @@ import { prisma } from "@/lib/db";
 // GET /api/notes/[id] - Fetch a single note
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id: idParam } = await params;
@@ -27,7 +27,7 @@ export async function GET(
     console.error("Error fetching note:", error);
     return NextResponse.json(
       { error: "Failed to fetch note" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -35,7 +35,7 @@ export async function GET(
 // PUT /api/notes/[id] - Update a note
 export async function PUT(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id: idParam } = await params;
@@ -51,7 +51,7 @@ export async function PUT(
     if (!title || !content) {
       return NextResponse.json(
         { error: "Title and content are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -77,7 +77,7 @@ export async function PUT(
     console.error("Error updating note:", error);
     return NextResponse.json(
       { error: "Failed to update note" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -85,7 +85,7 @@ export async function PUT(
 // DELETE /api/notes/[id] - Delete a note
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id: idParam } = await params;
@@ -110,13 +110,13 @@ export async function DELETE(
 
     return NextResponse.json(
       { message: "Note deleted successfully" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.error("Error deleting note:", error);
     return NextResponse.json(
       { error: "Failed to delete note" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

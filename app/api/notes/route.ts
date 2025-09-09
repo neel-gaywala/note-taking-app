@@ -14,7 +14,7 @@ export async function GET() {
     console.error("Error fetching notes:", error);
     return NextResponse.json(
       { error: "Failed to fetch notes" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
     if (!title || !content) {
       return NextResponse.json(
         { error: "Title and content are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
     console.error("Error creating note:", error);
     return NextResponse.json(
       { error: "Failed to create note" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

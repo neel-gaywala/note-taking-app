@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { Note, CreateNoteRequest } from '@/types';
-import { useCreateNote, useUpdateNote } from '@/hooks/useNotes';
-import Modal from './ui/Modal';
-import Input from './ui/Input';
-import Textarea from './ui/Textarea';
-import Button from './ui/Button';
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useCreateNote, useUpdateNote } from "@/hooks/useNotes";
+import { Note, CreateNoteRequest } from "@/types";
+import Button from "./ui/Button";
+import Input from "./ui/Input";
+import Modal from "./ui/Modal";
+import Textarea from "./ui/Textarea";
 
 interface NoteFormProps {
   isOpen: boolean;
@@ -25,8 +25,8 @@ const NoteForm: React.FC<NoteFormProps> = ({ isOpen, onClose, note }) => {
     formState: { errors, isSubmitting },
   } = useForm<CreateNoteRequest>({
     defaultValues: {
-      title: '',
-      content: '',
+      title: "",
+      content: "",
     },
   });
 
@@ -38,8 +38,8 @@ const NoteForm: React.FC<NoteFormProps> = ({ isOpen, onClose, note }) => {
       });
     } else if (isOpen && !note) {
       reset({
-        title: '',
-        content: '',
+        title: "",
+        content: "",
       });
     }
   }, [isOpen, note, reset]);
@@ -57,7 +57,7 @@ const NoteForm: React.FC<NoteFormProps> = ({ isOpen, onClose, note }) => {
       onClose();
       reset();
     } catch (error) {
-      console.error('Error saving note:', error);
+      console.error("Error saving note:", error);
     }
   };
 
@@ -70,17 +70,17 @@ const NoteForm: React.FC<NoteFormProps> = ({ isOpen, onClose, note }) => {
     <Modal
       isOpen={isOpen}
       onClose={handleClose}
-      title={isEditing ? 'Edit Note' : 'Create New Note'}
+      title={isEditing ? "Edit Note" : "Create New Note"}
       className="max-w-2xl"
     >
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <Input
           label="Title"
-          {...register('title', {
-            required: 'Title is required',
+          {...register("title", {
+            required: "Title is required",
             maxLength: {
               value: 100,
-              message: 'Title must be less than 100 characters',
+              message: "Title must be less than 100 characters",
             },
           })}
           error={errors.title?.message}
@@ -90,11 +90,11 @@ const NoteForm: React.FC<NoteFormProps> = ({ isOpen, onClose, note }) => {
 
         <Textarea
           label="Content"
-          {...register('content', {
-            required: 'Content is required',
+          {...register("content", {
+            required: "Content is required",
             maxLength: {
               value: 5000,
-              message: 'Content must be less than 5000 characters',
+              message: "Content must be less than 5000 characters",
             },
           })}
           error={errors.content?.message}
@@ -109,14 +109,14 @@ const NoteForm: React.FC<NoteFormProps> = ({ isOpen, onClose, note }) => {
             onClick={handleClose}
             disabled={isSubmitting}
           >
-            Cancel
+            {"Cancel"}
           </Button>
           <Button
             type="submit"
             isLoading={isSubmitting}
             disabled={isSubmitting}
           >
-            {isEditing ? 'Update Note' : 'Create Note'}
+            {isEditing ? "Update Note" : "Create Note"}
           </Button>
         </div>
       </form>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface CardProps {
   children: React.ReactNode;
@@ -9,13 +9,15 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({
   children,
-  className = '',
+  className = "",
   onClick,
   hover = false,
 }) => {
-  const baseClasses = 'bg-white rounded-lg border border-gray-200 shadow-sm';
-  const hoverClasses = hover ? 'hover:shadow-md transition-shadow cursor-pointer' : '';
-  const clickableClasses = onClick ? 'cursor-pointer' : '';
+  const baseClasses = "bg-white rounded-lg border border-gray-200 shadow-sm";
+  const hoverClasses = hover
+    ? "hover:shadow-md transition-shadow cursor-pointer"
+    : "";
+  const clickableClasses = onClick ? "cursor-pointer" : "";
 
   return (
     <div
