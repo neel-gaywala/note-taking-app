@@ -90,6 +90,8 @@ npm run dev
 - **Database**: SQLite
 - **ORM**: Prisma
 - **Styling**: Tailwind CSS
+- **Hooks**: Use Context Hooks
+- **API**: Use react-query for API Integration
 
 ## Project Structure
 
