@@ -54,7 +54,7 @@ const NotesList: React.FC = () => {
   if (error) {
     return (
       <div className="text-center py-12">
-        <p className="text-red-600">
+        <p className="text-red-600 dark:text-red-400">
           {"Error loading notes. Please try again."}
         </p>
       </div>
@@ -66,7 +66,7 @@ const NotesList: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
         <div className="relative flex-1 max-w-md">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Search className="h-5 w-5 text-gray-400" />
+            <Search className="h-5 w-5 text-gray-400 dark:text-gray-500" />
           </div>
           <Input
             type="text"
@@ -90,19 +90,19 @@ const NotesList: React.FC = () => {
           {[...Array(8)].map((_, i) => (
             <div
               key={i}
-              className="bg-white rounded-lg border border-gray-200 p-4 animate-pulse"
+              className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 animate-pulse"
             >
-              <div className="h-6 bg-gray-200 rounded mb-3" />
+              <div className="h-6 bg-gray-200 dark:bg-gray-600 rounded mb-3" />
               <div className="space-y-2">
-                <div className="h-4 bg-gray-200 rounded" />
-                <div className="h-4 bg-gray-200 rounded w-3/4" />
-                <div className="h-4 bg-gray-200 rounded w-1/2" />
+                <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded" />
+                <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-3/4" />
+                <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-1/2" />
               </div>
-              <div className="flex justify-between items-center mt-4 pt-4 border-t border-gray-100">
-                <div className="h-3 bg-gray-200 rounded w-20" />
+              <div className="flex justify-between items-center mt-4 pt-4 border-t border-gray-100 dark:border-gray-700">
+                <div className="h-3 bg-gray-200 dark:bg-gray-600 rounded w-20" />
                 <div className="flex space-x-2">
-                  <div className="h-6 w-6 bg-gray-200 rounded" />
-                  <div className="h-6 w-6 bg-gray-200 rounded" />
+                  <div className="h-6 w-6 bg-gray-200 dark:bg-gray-600 rounded" />
+                  <div className="h-6 w-6 bg-gray-200 dark:bg-gray-600 rounded" />
                 </div>
               </div>
             </div>
@@ -112,21 +112,21 @@ const NotesList: React.FC = () => {
         <div className="text-center py-16">
           {searchQuery ? (
             <div>
-              <Search className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
+              <Search className="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
                 {"No matching notes"}
               </h3>
-              <p className="text-gray-500">
+              <p className="text-gray-500 dark:text-gray-400">
                 {"Try adjusting your search terms"}
               </p>
             </div>
           ) : (
             <div>
-              <Plus className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
+              <Plus className="w-12 h-12 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+              <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
                 {"No notes yet"}
               </h3>
-              <p className="text-gray-500 mb-6">
+              <p className="text-gray-500 dark:text-gray-400 mb-6">
                 {"Create your first note to get started"}
               </p>
               <Button

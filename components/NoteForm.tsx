@@ -102,7 +102,7 @@ const NoteForm: React.FC<NoteFormProps> = ({ isOpen, onClose, note }) => {
           rows={8}
         />
 
-        <div className="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200">
+        <div className="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
           <Button
             type="button"
             variant="secondary"

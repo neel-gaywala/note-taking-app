@@ -25,10 +25,10 @@ const DeleteConfirmModal: React.FC<DeleteConfirmModalProps> = ({
       <div className="space-y-4">
         <div className="flex items-start space-x-3">
           <div className="flex-shrink-0">
-            <AlertTriangle className="w-6 h-6 text-red-600" />
+            <AlertTriangle className="w-6 h-6 text-red-600 dark:text-red-400" />
           </div>
           <div>
-            <p className="text-sm text-gray-700">
+            <p className="text-sm text-gray-700 dark:text-gray-300">
               {
                 "Are you sure you want to delete this note? This action cannot be undone."
               }
@@ -36,7 +36,7 @@ const DeleteConfirmModal: React.FC<DeleteConfirmModalProps> = ({
           </div>
         </div>
 
-        <div className="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200">
+        <div className="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
           <Button variant="secondary" onClick={onClose} disabled={isLoading}>
             {"Cancel"}
           </Button>
