@@ -1,3 +1,5 @@
+"use client";
+
 import { BarChart3, FileText, Clock, Hash } from "lucide-react";
 import { useNotesStats } from "@/hooks/useNotesStats";
 import NotesChart from "./NotesChart";
