@@ -1,6 +1,5 @@
 import { AlertTriangle } from "lucide-react";
-import Button from "./ui/Button";
-import Modal from "./ui/Modal";
+import { Button, Modal } from "./ui";
 
 interface DeleteConfirmModalProps {
   isOpen: boolean;

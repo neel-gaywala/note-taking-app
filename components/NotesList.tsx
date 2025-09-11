@@ -8,9 +8,7 @@ import { Note } from "@/types";
 import DeleteConfirmModal from "./DeleteConfirmModal";
 import NoteCard from "./NoteCard";
 import NoteForm from "./NoteForm";
-import Button from "./ui/Button";
-import Input from "./ui/Input";
-import NoteCardSkeleton from "./ui/NoteCardSkeleton";
+import { Button, Input, NoteCardSkeleton } from "./ui";
 
 const NotesList: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");

@@ -3,7 +3,7 @@
 import { StickyNote, BarChart3 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import Button from "./ui/Button";
+import { Button } from "./ui";
 
 const Navigation: React.FC = () => {
   const pathname = usePathname();

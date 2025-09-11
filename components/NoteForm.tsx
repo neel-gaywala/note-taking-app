@@ -4,10 +4,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useCreateNote, useUpdateNote } from "@/hooks/useNotes";
 import { Note, CreateNoteRequest } from "@/types";
-import Button from "./ui/Button";
-import Input from "./ui/Input";
-import Modal from "./ui/Modal";
-import Textarea from "./ui/Textarea";
+import { Button, Input, Modal, Textarea } from "./ui";
 
 interface NoteFormProps {
   isOpen: boolean;

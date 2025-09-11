@@ -1,8 +1,7 @@
 import { format } from "date-fns";
 import { Edit, Trash2 } from "lucide-react";
 import { Note } from "@/types";
-import Button from "./ui/Button";
-import Card from "./ui/Card";
+import { Button, Card } from "./ui";
 
 interface NoteCardProps {
   note: Note;

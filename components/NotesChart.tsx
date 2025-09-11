@@ -11,7 +11,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { ChartDataPoint } from "@/types";
-import CustomTooltip from "./ui/CustomTooltip";
+import { CustomTooltip } from "./ui";
 
 interface NotesChartProps {
   data: ChartDataPoint[];

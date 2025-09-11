@@ -3,7 +3,7 @@
 import { BarChart3, FileText, Clock, Hash } from "lucide-react";
 import { useNotesStats } from "@/hooks/useNotesStats";
 import NotesChart from "./NotesChart";
-import Card from "./ui/Card";
+import { Card } from "./ui";
 
 const Dashboard: React.FC = () => {
   const { stats, chartData, isLoading, error } = useNotesStats();
