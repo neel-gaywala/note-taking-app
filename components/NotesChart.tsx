@@ -1,4 +1,3 @@
-import { format } from "date-fns";
 import { BarChart3 } from "lucide-react";
 import {
   BarChart,
@@ -10,6 +9,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { ChartDataPoint } from "@/types";
+import CustomTooltip from "./ui/CustomTooltip";
 
 interface NotesChartProps {
   data: ChartDataPoint[];
@@ -32,33 +32,6 @@ const NotesChart: React.FC<NotesChartProps> = ({ data }) => {
     );
   }
 
-  const formatDate = (dateString: string) => {
-    try {
-      return format(new Date(dateString), "MMM dd");
-    } catch {
-      return dateString;
-    }
-  };
-
-  function CustomTooltip({ active, payload, label }: {
-    active?: boolean;
-    payload?: Array<{ value: number }>;
-    label?: string;
-  }) {
-    if (active && payload && payload.length) {
-      const date = formatDate(label || "");
-      const count = payload[0].value;
-      return (
-        <div className="bg-white p-3 rounded-lg shadow-lg border">
-          <p className="text-sm font-medium text-gray-900">{date}</p>
-          <p className="text-sm text-gray-600">
-            {count} {count === 1 ? "note" : "notes"} {"created"}
-          </p>
-        </div>
-      );
-    }
-    return null;
-  }
 
   return (
     <div className="h-64">
@@ -70,7 +43,16 @@ const NotesChart: React.FC<NotesChartProps> = ({ data }) => {
           <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
           <XAxis
             dataKey="date"
-            tickFormatter={formatDate}
+            tickFormatter={(dateString) => {
+              try {
+                return new Date(dateString).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric"
+                });
+              } catch {
+                return dateString;
+              }
+            }}
             tick={{ fontSize: 12 }}
             tickLine={{ stroke: "#e5e7eb" }}
           />
