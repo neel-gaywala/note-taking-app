@@ -8,6 +8,7 @@ import NoteCard from "./NoteCard";
 import NoteForm from "./NoteForm";
 import Button from "./ui/Button";
 import Input from "./ui/Input";
+import NoteCardSkeleton from "./ui/NoteCardSkeleton";
 
 const NotesList: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -88,24 +89,7 @@ const NotesList: React.FC = () => {
       {isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {[...Array(8)].map((_, i) => (
-            <div
-              key={i}
-              className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4 animate-pulse"
-            >
-              <div className="h-6 bg-gray-200 dark:bg-gray-600 rounded mb-3" />
-              <div className="space-y-2">
-                <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded" />
-                <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-3/4" />
-                <div className="h-4 bg-gray-200 dark:bg-gray-600 rounded w-1/2" />
-              </div>
-              <div className="flex justify-between items-center mt-4 pt-4 border-t border-gray-100 dark:border-gray-700">
-                <div className="h-3 bg-gray-200 dark:bg-gray-600 rounded w-20" />
-                <div className="flex space-x-2">
-                  <div className="h-6 w-6 bg-gray-200 dark:bg-gray-600 rounded" />
-                  <div className="h-6 w-6 bg-gray-200 dark:bg-gray-600 rounded" />
-                </div>
-              </div>
-            </div>
+            <NoteCardSkeleton key={i} />
           ))}
         </div>
       ) : filteredNotes.length === 0 ? (
